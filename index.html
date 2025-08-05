@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Wilson Reading Tiles</title>
+  <style>
+    #tileContainerWrapper {
+      width: 100%;
+      overflow-x: hidden;
+    }
+
+    .line-group {
+      display: flex;
+      justify-content: flex-start;
+      flex-wrap: wrap;
+      width: 100%;
+      gap: 12px 8px;
+      align-items: flex-start;
+      margin-bottom: 12px;
+    }
+
+    .word-group {
+      display: flex;
+      flex-wrap: nowrap;
+      flex-shrink: 1;
+      flex-grow: 0;
+      margin-right: 12px;
+    }
+
+    .tile {
+      width: 60px;
+      height: 60px;
+      padding: 0 6px;
+      text-align: center;
+      vertical-align: top;
+      font-size: 48px;
+      border: 1px solid black;
+      white-space: nowrap;
+      box-sizing: border-box;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .vowel {
+      background-color: peachpuff;
+    }
+
+    .consonant {
+      background-color: yellow;
+    }
+
+    .welded {
+      background-color: lightgreen;
+    }
+
+    .punctuation {
+      background-color: white;
+    }
+
+    #wordInput {
+      display: block;
+      width: 100%;
+      min-height: 60px;
+      margin-bottom: 16px;
+      font-size: 18px;
+    }
+  </style>
+</head>
+<body>
+  <textarea id="wordInput" placeholder="Type your text, use Enter to skip to a new line..."></textarea>
+  <div id="tileContainerWrapper">
+    <div id="tileContainer"></div>
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const input = document.getElementById("wordInput");
+      const container = document.getElementById("tileContainer");
+
+      const weldedSounds = [
+        "ang", "ing", "ong", "ung", "ank", "ink", "onk", "unk",
+        "all", "am", "an", "ind", "old", "ost", "olt", "ild", "ive"
+      ];
+
+      const digraphs = ["sh", "th", "ch", "wh", "ph", "ck"];
+      const punctuationMarks = [".", ",", "!", "?", ":", ";", "'", """, "-", "—", "(", ")"];
+
+      input.addEventListener("input", function () {
+        const inputText = input.value;
+        container.innerHTML = "";
+
+        const lines = inputText.split(/\n+/);
+
+        lines.forEach((line) => {
+          const lineGroup = document.createElement("div");
+          lineGroup.className = "line-group";
+
+          const words = line.trim().split(/\s+/);
+
+          words.forEach(word => {
+            const wordGroup = document.createElement("div");
+            wordGroup.className = "word-group";
+
+            let i = 0;
+            while (i < word.length) {
+              let tile = document.createElement("div");
+              tile.className = "tile";
+
+              let isWelded = false;
+              let isDigraph = false;
+              let isPunctuation = false;
+
+              for (const sound of weldedSounds) {
+                if (word.startsWith(sound.toLowerCase(), i)) {
+                  tile.textContent = sound;
+                  tile.classList.add("welded");
+                  tile.style.fontSize = sound.length >= 4 ? "24px" : sound.length === 3 ? "32px" : "36px";
+                  i += sound.length;
+                  isWelded = true;
+                  break;
+                }
+              }
+
+              if (!isWelded) {
+                for (const sound of digraphs) {
+                  if (word.startsWith(sound, i)) {
+                    tile.textContent = sound;
+                    tile.classList.add("consonant");
+                    i += sound.length;
+                    isDigraph = true;
+                    break;
+                  }
+                }
+              }
+
+              if (!isWelded && !isDigraph) {
+                let char = word[i];
+                tile.textContent = char;
+
+                if ("aeiou".includes(char)) {
+                  tile.classList.add("vowel");
+                } else if ("bcdfghjklmnpqrstvwxyz".includes(char)) {
+                  tile.classList.add("consonant");
+                } else if (punctuationMarks.includes(char)) {
+                  tile.classList.add("punctuation");
+                  isPunctuation = true;
+                }
+
+                i++;
+              }
+
+              wordGroup.appendChild(tile);
+            }
+
+            lineGroup.appendChild(wordGroup);
+          });
+
+          container.appendChild(lineGroup);
+        });
+      });
+    });
+  </script>
+</body>
+</html>
