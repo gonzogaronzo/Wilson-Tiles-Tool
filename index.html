@@ -9,6 +9,38 @@
 *{box-sizing:border-box}body{margin:0;background:#f6f3ea;color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}.page{width:min(980px,calc(100% - 24px));margin:20px auto 40px}.page-header{margin-bottom:14px}.page-header h1{margin:0 0 4px;font-size:clamp(22px,3vw,32px);line-height:1.1}.page-header p{margin:0;color:var(--muted);font-size:14px}
 #app .top{display:grid;gap:10px;margin-bottom:12px}#app .controls{display:flex;flex-wrap:wrap;gap:8px;align-items:end}#app .field{min-width:135px}#app label{display:block;font-size:11px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-bottom:4px}#app select,#app input{min-height:43px;border:1px solid var(--border);border-radius:9px;background:var(--card);color:var(--text);padding:7px 10px;font-size:16px}#app .btn{min-height:43px;border-radius:9px;border:1px solid var(--border);padding:7px 11px;background:var(--card);font-weight:700;color:var(--text);cursor:pointer}#app .btn.primary{background:var(--accentbg);border-color:transparent}#app .modebar{display:flex;flex-wrap:wrap;gap:7px;padding:10px 0}#app .modebtn{min-height:44px;border-radius:10px;border:1px solid var(--border);padding:8px 12px;background:var(--card);font-weight:750;color:var(--text);cursor:pointer}#app .timer{display:flex;flex-wrap:wrap;align-items:center;gap:8px;padding:10px 12px;border:1px solid var(--border);border-radius:12px;background:var(--panel)}#app .timer-display{font:750 28px/1.1 ui-monospace,SFMono-Regular,Menlo,monospace;min-width:112px;font-variant-numeric:tabular-nums}#app .timer input{width:72px}#app .prompt{margin:8px 0 10px;padding:10px 12px;border-radius:10px;background:var(--panel);font-weight:700}#app .subnote{font-size:13px;color:var(--muted);margin-top:-3px}#app .board-shell{background:#25323b;border-radius:17px;padding:13px;border:1px solid rgba(255,255,255,.08)}#app .board{position:relative;min-height:650px;border-radius:13px;background:#33424c;overflow:hidden;touch-action:none;box-shadow:inset 0 0 0 1px rgba(255,255,255,.07)}#app .storage-label,#app .work-label{position:absolute;left:15px;font-size:11px;font-weight:800;letter-spacing:.09em;text-transform:uppercase;color:rgba(255,255,255,.58);pointer-events:none}#app .storage-label{top:11px}#app .work-label{top:var(--work-top,450px)}#app .work-zone{position:absolute;left:13px;right:13px;top:calc(var(--work-top,450px) + 22px);bottom:14px;border:2px dashed rgba(255,255,255,.18);border-radius:12px;background:rgba(255,255,255,.025);pointer-events:none}#app .tile{position:absolute;width:49px;height:43px;display:flex;align-items:center;justify-content:center;border-radius:7px;border:1px solid rgba(30,40,45,.35);font:700 19px/1 system-ui,sans-serif;cursor:grab;user-select:none;box-shadow:0 2px 4px rgba(0,0,0,.26);transition:opacity .16s ease,transform .16s ease,box-shadow .16s ease}#app .tile:focus-visible,#app .btn:focus-visible,#app .modebtn:focus-visible,#app select:focus-visible,#app input:focus-visible{outline:3px solid #8eb4c7;outline-offset:2px}#app .tile.selected{outline:3px solid var(--accent);outline-offset:2px;z-index:30}#app .tile.ivory{background:#f4edcf;color:#273037}#app .tile.salmon{background:#e7a18c;color:#302724}#app .tile.green{background:#87aa82;color:#1f2a20}#app .tile.yellow{background:#efd363;color:#302d1e;width:76px;font-size:21px}#app .tile.blank{font-size:0}#app .tile.affix{font-size:21px;justify-content:flex-start;padding:0 8px}#app .tile.affix.prefix{justify-content:flex-end}#app .tile.hidden-tile{visibility:hidden}#app .board.memory-hidden .tile{opacity:0}#app .board.memory-hidden .storage-label{opacity:.25}#app .info{margin-top:9px;font-size:13px;color:var(--muted);display:grid;gap:5px}#app .legend{display:flex;flex-wrap:wrap;gap:8px 15px}#app .legend span{display:inline-flex;align-items:center;gap:6px}#app .swatch{width:14px;height:14px;border-radius:3px;border:1px solid rgba(0,0,0,.15)}
 @media(max-width:560px){.page{width:min(100% - 12px,980px);margin-top:8px}#app .tile{width:42px;height:39px;font-size:17px}#app .tile.yellow{width:66px}#app .board-shell{padding:9px}#app .timer-display{font-size:24px}}
+
+/* Desktop presentation layout: board + control rail in one glance */
+.page{width:min(1240px,calc(100% - 24px))}
+#app{display:grid;grid-template-columns:minmax(0,1fr) 250px;grid-template-areas:"prompt top" "board top" "info top";gap:12px 14px;align-items:start}
+#app .top{grid-area:top;margin:0;gap:12px;position:sticky;top:12px}
+#app .prompt{grid-area:prompt;margin:0}
+#app .board-shell{grid-area:board}
+#app .info{grid-area:info;margin-top:0}
+#app .controls{display:grid;gap:8px;align-items:stretch}
+#app .controls .field,#app .controls .btn,#app .controls select{width:100%}
+#app .modebar{display:grid;gap:8px;padding:0}
+#app .modebtn{width:100%;text-align:left}
+#app .subnote{margin-top:8px;line-height:1.35}
+#app .timer{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:10px}
+#app .timer-display{grid-column:1/-1;text-align:center;min-width:0}
+#app .timer .field{grid-column:1/-1;min-width:0}
+#app .timer select,#app .timer input{width:100%}
+#app .timer [data-timer="start"]{grid-column:1/-1}
+@media(max-width:900px){
+  .page{width:min(980px,calc(100% - 24px))}
+  #app{display:block}
+  #app .top{position:static;margin-bottom:12px}
+  #app .controls{display:flex}
+  #app .controls .field,#app .controls .btn,#app .controls select{width:auto}
+  #app .modebar{display:flex;padding:10px 0}
+  #app .modebtn{width:auto;text-align:center}
+  #app .timer{display:flex}
+  #app .timer-display{min-width:112px;text-align:left}
+  #app .timer .field{min-width:135px}
+  #app .timer select{width:auto}
+  #app .timer input{width:72px}
+}
 </style>
 </head>
 <body>
